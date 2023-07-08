@@ -11,20 +11,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:testapp/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets(' smoke test', (WidgetTester tester) async {
+
+    const testKey = Key('myKey');
+
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget( const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify that our text is Hello there.
+    expect(find.text('Hello there'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
+    // Verify that initial color is white
+    expect((tester.firstWidget(find.byType(Container)) as Container).color,
+      Colors.white,);
+
+    // Tap on screen to change the color
+    await tester.tap(find.byKey(testKey));
     await tester.pump();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify that the initial color has changed
+    expect((tester.firstWidget(find.byType(Container)) as Container).color,
+        isNot(Colors.white),);
+
   });
 }
